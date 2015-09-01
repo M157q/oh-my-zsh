@@ -79,3 +79,22 @@ zsh-pip-test-clean-packages() {
 
 alias pip="noglob pip" # allows square brackets for pip command invocation
 
+zsh-pip-upgrade-installed-packages()  {
+
+    outdated_packages=`pip list -o 2>/dev/null`
+
+    if [[ -n $outdated_packages ]] ; then
+        echo "Outdated packages:"
+        echo -e "$outdated_packages\n"
+
+        echo -e "Start upgrading...\n"
+        echo $outdated_packages | awk {'print $1'} | xargs pip install -U
+        echo -e "\nAll installed packages are up to date."
+    else
+        echo "No outdated packages."
+    fi
+}
+
+pip-upgrade() {
+    zsh-pip-upgrade-installed-packages
+}
