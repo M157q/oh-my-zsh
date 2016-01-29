@@ -8,11 +8,10 @@ if [[ "$TERM" == screen* ]]; then
     _GET_HOST='echo $HOST | sed "s/\..*//"'
   fi
 
-  # use the current user as the prefix of the current tab title 
-  TAB_TITLE_PREFIX='"`'$_GET_HOST'`:`'$_GET_PATH' | sed "s:..*/::"`$PROMPT_CHAR"'
   # when at the shell prompt, show a truncated version of the current path (with
   # standard ~ replacement) as the rest of the title.
-  TAB_TITLE_PROMPT='$SHELL:t'
+  TAB_TITLE_PREFIX='"`'$_GET_PATH' | sed "s:..*/::"`$PROMPT_CHAR"'
+
   # when running a command, show the title of the command as the rest of the
   # title (truncate to drop the path to the command)
   TAB_TITLE_EXEC='$cmd[1]:t'
@@ -47,7 +46,7 @@ if [[ "$TERM" == screen* ]]; then
   # called by zsh before showing the prompt
   function precmd()
   {
-    eval "tab_title=$TAB_TITLE_PREFIX:$TAB_TITLE_PROMPT"
+    eval "tab_title=$TAB_TITLE_PREFIX"
     eval "tab_hardstatus=$TAB_HARDSTATUS_PREFIX:$TAB_HARDSTATUS_PROMPT"
     screen_set $tab_title $tab_hardstatus
   }
